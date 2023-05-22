@@ -7,15 +7,12 @@ import { client } from "../client";
 import logo from "../assets/logo.png";
 import Pins from "./Pins";
 import { userQuery } from "../utils/data";
+import { fetchUser } from "../utils/fetchUser";
 const Home = () => {
   const [toggleSideBar, setToggleSideBar] = useState(false);
   const [user, setUser] = useState(null);
   const scrollRef = useRef(null);
-
-  const userInfo =
-    localStorage.getItem("user") !== "undefined"
-      ? JSON.parse(localStorage.getItem("user"))
-      : localStorage.clear();
+  const userInfo = fetchUser();
 
   useEffect(() => {
     const query = userQuery(userInfo?.sub);
@@ -26,7 +23,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    scrollRef.current.scrollTo(0, 0)
+    scrollRef.current.scrollTo(0, 0);
   }, []);
 
   return (
@@ -36,37 +33,43 @@ const Home = () => {
       </div>
       <div className="flex md:hidden flex-row">
         <div className="p-2 w-full flex flex-row justify-between items-center shadow-md ">
-        <HiMenu
-          fontSize={40}
-          className="cursor-pointer"
-          onClick={() => setToggleSideBar(true)}
-        />
-        <Link to="/">
-          <img src={logo} alt="logo" className="w-28" />
-        </Link>
-        <Link to={`user-profile/${user?._id}`}>
-          <img src={user?.image} alt="logo" className="w-28" />
-        </Link>
+          <HiMenu
+            fontSize={40}
+            className="cursor-pointer"
+            onClick={() => setToggleSideBar(true)}
+          />
+          <Link to="/">
+            <img src={logo} alt="logo" className="w-28" />
+          </Link>
+          <Link to={`user-profile/${user?._id}`}>
+            <img
+              src={user?.image}
+              alt="user-pic"
+              className="w-9 h-9 rounded-full"
+            />
+          </Link>
         </div>
         {toggleSideBar && (
-        <div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in">
-          <div className="absolute w-full flex justify-end p-2">
-            <AiFillCloseCircle
-              fontSize={30}
-              className="cursor-pointer"
-              onClick={() => setToggleSideBar(false)}
-            />
+          <div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in">
+            <div className="absolute w-full flex justify-end p-2">
+              <AiFillCloseCircle
+                fontSize={30}
+                className="cursor-pointer"
+                onClick={() => setToggleSideBar(false)}
+              />
+            </div>
+            <SideBar user={user && user} closeToggle={setToggleSideBar} />
           </div>
-          <SideBar user={user && user} closeToggle={setToggleSideBar} />
-        </div>
-      )}
+        )}
       </div>
-      
-      <div className="pb-2 flex-1 h-scren overflow-y-scroll hide-scrollbar" ref={scrollRef}>
-        <Routes>
-          <Route path="/user-profile/:userId" element={<UserProfile/>} />
-          <Route path="/*" element={<Pins user={user && user} />} />
 
+      <div
+        className="pb-2 flex-1 h-scren overflow-y-scroll hide-scrollbar"
+        ref={scrollRef}
+      >
+        <Routes>
+          <Route path="/user-profile/:userId" element={<UserProfile />} />
+          <Route path="/*" element={<Pins user={user && user} />} />
         </Routes>
       </div>
     </div>
