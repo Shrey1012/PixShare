@@ -51,7 +51,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
       <div
         onMouseEnter={() => setPostHovered(true)}
         onMouseLeave={() => setPostHovered(false)}
-        onClick={() => navigate(`pin-detail/${_id}`)}
+        onClick={() => navigate(`/pin-detail/${_id}`)}
         className="relative cursor-zoom-in w-auto hover:shadow-lg rounded-lg overflow-hidden transition-all duration-500 ease-in-out"
       >
         <img
@@ -126,7 +126,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
         )}
       </div>
       <Link
-        to={`user-profile/${postedBy?._id}`}
+        to={`/user-profile/${postedBy?._id}`}
         className="flex gap-2 mt-2 items-center"
       >
         <img

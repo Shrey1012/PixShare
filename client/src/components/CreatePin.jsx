@@ -12,7 +12,7 @@ const CreatePin = ({ user }) => {
   const [destination, setDestination] = useState("");
   const [loading, setLoading] = useState(false);
   const [fields, setFields] = useState(false);
-  const [category, setCategory] = useState(null);
+  const [category, setCategory] = useState("");
   const [imageAsset, setImageAsset] = useState(null);
   const [wrongImageType, setWrongImageType] = useState(false);
 
@@ -179,8 +179,8 @@ const CreatePin = ({ user }) => {
                 </option>
                 {categories.map((category) => (
                   <option
-                    key={category}
-                    value={category}
+                    key={category.name}
+                    value={category.name}
                     className="text-base border-0 outline-none capitalize text-black bg-white"
                   >
                     {category.name}
